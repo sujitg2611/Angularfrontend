@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Employee, EmployeeService } from '../../services/employee.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -17,7 +17,8 @@ export class EmployeeEditComponent implements OnInit {
   constructor(
     private svc: EmployeeService,
     public router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private cd: ChangeDetectorRef
   ) { }
 
   ngOnInit() {
@@ -28,8 +29,13 @@ export class EmployeeEditComponent implements OnInit {
         next: (data) => {
           this.employee = data;
           this.loading = false;
+          this.cd.detectChanges();
         },
-        error: () => (this.loading = false)
+        error: () => {
+          this.loading = false;
+          this.cd.detectChanges();
+        }
+
       });
     }
   }

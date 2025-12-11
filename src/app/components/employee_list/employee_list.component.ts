@@ -1,15 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Employee, EmployeeService } from '../../services/employee.service';
 import { CommonModule } from '@angular/common';
 import { NavigationEnd, Router, RouterLink } from '@angular/router';
 import { filter } from 'rxjs/operators';
+import { FormsModule } from '@angular/forms';
 
-@Component({ selector: 'app-employee-list', standalone: true, imports: [CommonModule, RouterLink], templateUrl: './employee_list.component.html' })
+@Component({ selector: 'app-employee-list', standalone: true, imports: [FormsModule, CommonModule, RouterLink], templateUrl: './employee_list.component.html' })
 export class EmployeeListComponent implements OnInit {
   employees: Employee[] = [];
   loading: boolean = false;
 
-  pageSize: number = 5;       // show 5 employees per page
+  pageSize: number = 5;
   currentPage: number = 1;
   totalPages: number = 1;
   paginatedEmployees: Employee[] = [];
@@ -34,12 +35,12 @@ export class EmployeeListComponent implements OnInit {
       this.setPage(this.currentPage - 1);
     }
   }
-  constructor(private svc: EmployeeService) {
+  constructor(private svc: EmployeeService, private cd: ChangeDetectorRef) {
   }
 
 
   ngOnInit() {
-    this.load(); // Only one load
+    this.load();
   }
 
 
@@ -54,10 +55,12 @@ export class EmployeeListComponent implements OnInit {
         this.setPage(1);  // show first page on load
 
         this.loading = false;
+        this.cd.detectChanges();
       },
       error: (err) => {
         console.error(err);
         this.loading = false;
+        this.cd.detectChanges();
       }
     });
   }
