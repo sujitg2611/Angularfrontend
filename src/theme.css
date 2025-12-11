@@ -1,0 +1,45 @@
+:root {
+  --hdfc-blue: #004a99;
+  --hdfc-light-blue: #e6f1ff;
+  --hdfc-yellow: #ffcb05;
+  --hdfc-white: #ffffff;
+  --hdfc-gray: #f5f5f5;
+  --hdfc-shadow: rgba(0, 0, 0, 0.12);
+}
+
+body {
+  background: var(--hdfc-gray);
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.card {
+  border-radius: 12px;
+  box-shadow: 0 2px 8px var(--hdfc-shadow);
+  border: none;
+}
+
+.btn.btn-hdfc {
+  background: #003a77;
+  color: white !important;
+  border-radius: 8px;
+  padding: 8px 16px;
+}
+
+.btn.btn-hdfc:hover {
+  background-color: #003a77 !important;
+}
+
+.navbar-hdfc {
+  background: #003a77 !important;
+}
+
+.navbar-hdfc .nav-link,
+.navbar-brand {
+  color: white !important;
+  font-weight: 500;
+}
+
+.table-hdfc thead {
+  background: #003a77;
+  color: white;
+}

@@ -1,0 +1,55 @@
+<div class="container mt-4">
+  <div class="card p-3">
+    <h3>Employee List</h3>
+
+    <div *ngIf="loading" class="text-center my-4">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+
+    <table *ngIf="!loading" class="table table-bordered table-hdfc mt-3">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Phone</th>
+          <th>Address</th>
+          <th>Department</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+
+
+      <tbody>
+        <tr *ngFor="let e of paginatedEmployees">
+          <td>{{ e.id }}</td>
+          <td>{{ e.name }}</td>
+          <td>{{ e.phone }}</td>
+          <td>{{ e.address }}</td>
+          <td>{{ e.department }}</td>
+          <td>
+            <button class="btn btn-sm btn-hdfc me-2" [routerLink]="['/employee-edit',e.id]">Edit</button>
+            <button class="btn btn-sm btn-hdfc" (click)="delete(e.id!)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div *ngIf="!loading" class="d-flex justify-content-center mt-3">
+
+      <button class="btn btn-primary me-2" (click)="prevPage()" [disabled]="currentPage === 1">
+        Previous
+      </button>
+
+      <span class="align-self-center">
+        Page {{ currentPage }} of {{ totalPages }}
+      </span>
+
+      <button class="btn btn-primary ms-2" (click)="nextPage()" [disabled]="currentPage === totalPages">
+        Next
+      </button>
+
+    </div>
+  </div>
+</div>

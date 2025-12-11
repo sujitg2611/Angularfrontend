@@ -1,0 +1,31 @@
+<div class="container mt-4">
+  <div class="card p-4">
+    <h3>Add Employee</h3>
+    <hr>
+
+
+    <form (ngSubmit)="submit()">
+
+
+      <label class="form-label mt-3">Employee Name</label>
+      <input class="form-control" [(ngModel)]="emp.name" name="name" required />
+
+
+      <label class="form-label mt-3">Phone Number</label>
+      <input class="form-control" [(ngModel)]="emp.phone" name="phone" required />
+
+
+      <label class="form-label mt-3">Address</label>
+      <input class="form-control" [(ngModel)]="emp.address" name="address" required />
+
+
+      <label class="form-label mt-3">Department</label>
+      <input class="form-control" [(ngModel)]="emp.department" name="department" required />
+
+
+      <button type="submit" class="btn btn-hdfc mt-4">
+        Save
+      </button>
+    </form>
+  </div>
+</div>
