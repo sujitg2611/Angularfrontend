@@ -4,26 +4,47 @@
     <hr>
 
 
-    <form (ngSubmit)="submit()">
+    <form #empForm="ngForm" (ngSubmit)="submit()">
 
 
       <label class="form-label mt-3">Employee Name</label>
-      <input class="form-control" [(ngModel)]="emp.name" name="name" required />
+      <input class="form-control" [(ngModel)]="emp.name" name="name" required #name="ngModel" />
+
+      <div class="text-danger mt-1" *ngIf="name.invalid && name.touched">
+        Name is required
+      </div>
 
 
       <label class="form-label mt-3">Phone Number</label>
-      <input class="form-control" [(ngModel)]="emp.phone" name="phone" required />
+      <input class="form-control" [(ngModel)]="emp.phone" name="phone" required pattern="^[0-9]{10}$"
+        #phone="ngModel" />
+
+      <div class="text-danger mt-1" *ngIf="phone.invalid && phone.touched">
+        <div *ngIf="phone.errors?.['required']">
+          Phone number is required
+        </div>
+        <div *ngIf="phone.errors?.['pattern']">
+          Phone number must be exactly 10 digits
+        </div>
+      </div>
 
 
       <label class="form-label mt-3">Address</label>
-      <input class="form-control" [(ngModel)]="emp.address" name="address" required />
+      <input class="form-control" [(ngModel)]="emp.address" name="address" required #address="ngModel" />
+
+      <div class="text-danger mt-1" *ngIf="address.invalid && address.touched">
+        Address is required
+      </div>
 
 
       <label class="form-label mt-3">Department</label>
-      <input class="form-control" [(ngModel)]="emp.department" name="department" required />
+      <input class="form-control" [(ngModel)]="emp.department" name="department" required #department="ngModel" />
 
+      <div class="text-danger mt-1" *ngIf="department.invalid && department.touched">
+        Department is required
+      </div>
 
-      <button type="submit" class="btn btn-hdfc mt-4">
+      <button type="submit" class="btn btn-hdfc mt-4" [disabled]="empForm.invalid">
         Save
       </button>
     </form>
