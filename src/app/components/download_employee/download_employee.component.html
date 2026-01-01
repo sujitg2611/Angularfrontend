@@ -1,0 +1,27 @@
+<div class="container mt-4">
+  <div class="card p-4">
+    <h3>Download Employee Data</h3>
+    <hr />
+
+    <form (ngSubmit)="download()">
+
+      <label class="form-label mt-3">Select Employee</label>
+
+      <select class="form-select" [(ngModel)]="selectedOption" name="selectedOption" (change)="onOptionChange()"
+        required>
+        <option value="ALL">All</option>
+        <option value="BY_ID">Select Employee by ID</option>
+      </select>
+
+      <div *ngIf="selectedOption === 'BY_ID'" class="mt-3">
+        <label class="form-label">Employee ID</label>
+        <input type="number" class="form-control" [(ngModel)]="employeeId" name="employeeId" required />
+      </div>
+
+      <button type="submit" class="btn btn-hdfc mt-4">
+        Download
+      </button>
+
+    </form>
+  </div>
+</div>

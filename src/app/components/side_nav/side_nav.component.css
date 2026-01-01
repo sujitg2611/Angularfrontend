@@ -1,0 +1,44 @@
+.side-nav {
+  width: 240px;
+  height: 100vh;
+  background-color: #1f2937;
+  padding: 1rem;
+  color: white;
+}
+.content {
+  padding: 10px;
+}
+
+.nav-btn {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 16px;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.nav-btn:hover {
+  background-color: #374151;
+}
+
+.submenu {
+  margin-left: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+.submenu a {
+  color: #d1d5db;
+  text-decoration: none;
+  padding: 6px 10px;
+  font-size: 14px;
+}
+
+.submenu a:hover,
+.submenu a.active {
+  background-color: #4b5563;
+  color: white;
+}

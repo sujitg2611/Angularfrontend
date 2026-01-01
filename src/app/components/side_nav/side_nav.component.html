@@ -1,0 +1,16 @@
+<div class="side-nav">
+  <!-- <img src="../../../../public/6039.png" alt=""> -->
+  <h3 class="content">EMS</h3>
+  <button class="nav-btn" routerLink="/">Home</button>
+  <button class="nav-btn" (click)="toggleEmployeeMenu()">Employee</button>
+
+  <div class="submenu" *ngIf="showEmployeeMenu">
+    <a routerLink="/add-employee" routerLinkActive="active">Add Employee</a>
+    <a routerLink="/employee-list" routerLinkActive="active">Get All Employees</a>
+    <a routerLink="/download-employee" routerLinkActive="active">Download Employee</a>
+  </div>
+
+  <button class="nav-btn" routerLink="/departments">Department</button>
+
+  <button class="nav-btn" routerLink="/salary">Salary</button>
+</div>
