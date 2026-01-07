@@ -24,9 +24,9 @@ describe('AppComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should render navbar component', () => {
-    const navbar = fixture.debugElement.query(By.css('app-navbar'));
-    expect(navbar).toBeTruthy();
+  it('should render side navigation component', () => {
+    const sideNav = fixture.debugElement.query(By.css('app-side-nav'));
+    expect(sideNav).toBeTruthy();
   });
 
   it('should contain router-outlet', () => {

@@ -6,12 +6,13 @@ import { of, Subject } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-
+import { MatDialog } from '@angular/material/dialog';
 
 describe('EmployeeListComponent', () => {
   let component: EmployeeListComponent;
   let fixture: ComponentFixture<EmployeeListComponent>;
   let employeeServiceSpy: jasmine.SpyObj<EmployeeService>;
+  let dialogSpy: jasmine.SpyObj<MatDialog>;
 
   const mockEmployees: Employee[] = [
     { id: 1, name: 'A', phone: '1111111111', address: 'Addr1', department: 'IT' },
@@ -24,6 +25,7 @@ describe('EmployeeListComponent', () => {
 
   beforeEach(async () => {
     employeeServiceSpy = jasmine.createSpyObj('EmployeeService', ['getAll', 'delete']);
+    dialogSpy = jasmine.createSpyObj('MatDialog', ['open']);
 
     employeeServiceSpy.getAll.and.returnValue(of(mockEmployees));
     employeeServiceSpy.delete.and.returnValue(of({}));
@@ -36,7 +38,8 @@ describe('EmployeeListComponent', () => {
         RouterTestingModule
       ],
       providers: [
-        { provide: EmployeeService, useValue: employeeServiceSpy }
+        { provide: EmployeeService, useValue: employeeServiceSpy },
+        { provide: MatDialog, useValue: dialogSpy }
       ]
     }).compileComponents();
 
@@ -104,41 +107,98 @@ describe('EmployeeListComponent', () => {
     expect(component.currentPage).toBe(1);
   }));
 
-  it('should call delete service when delete confirmed', fakeAsync(() => {
-    spyOn(window, 'confirm').and.returnValue(true);
+  // it('should call delete service when delete confirmed', fakeAsync(() => {
+  //   spyOn(window, 'confirm').and.returnValue(true);
 
-    fixture.detectChanges();
+  //   fixture.detectChanges();
+  //   tick();
+  //   fixture.detectChanges();
+
+  //   component.delete(1);
+  //   tick();
+
+  //   expect(employeeServiceSpy.delete).toHaveBeenCalledWith(1);
+  // }));
+
+
+  // it('should navigate to edit page when Edit button is clicked', fakeAsync(() => {
+  //   fixture.detectChanges();
+  //   tick();
+  //   fixture.detectChanges();
+
+  //   const router = TestBed.inject(Router);
+  //   const navigateSpy = spyOn(router, 'navigateByUrl');
+
+  //   const buttons: HTMLButtonElement[] =
+  //     Array.from(fixture.nativeElement.querySelectorAll('button'));
+
+  //   const editButton = buttons.find(btn =>
+  //     btn.textContent?.trim() === 'Edit'
+  //   );
+
+  //   expect(editButton).toBeTruthy();
+
+  //   editButton!.click();
+  //   tick();
+
+  //   expect(navigateSpy).toHaveBeenCalled();
+  // }));
+
+  it('should delete employee when dialog is confirmed', fakeAsync(() => {
+    dialogSpy.open.and.returnValue({
+      afterClosed: () => of(true)
+    } as any);
+
+    spyOn(component, 'load');
+
+    component.deleteEmployee(1);
     tick();
-    fixture.detectChanges();
 
-    component.delete(1);
-    tick();
-
+    expect(dialogSpy.open).toHaveBeenCalled();
     expect(employeeServiceSpy.delete).toHaveBeenCalledWith(1);
+    expect(component.load).toHaveBeenCalled();
   }));
 
+  it('should NOT delete employee when dialog is cancelled', fakeAsync(() => {
+    dialogSpy.open.and.returnValue({
+      afterClosed: () => of(false)
+    } as any);
 
-  it('should navigate to edit page when Edit button is clicked', fakeAsync(() => {
-    fixture.detectChanges();
+    component.deleteEmployee(1);
     tick();
-    fixture.detectChanges();
+
+    expect(employeeServiceSpy.delete).not.toHaveBeenCalled();
+  }));
+
+  it('should navigate to edit page when edit is confirmed', fakeAsync(() => {
+    dialogSpy.open.and.returnValue({
+      afterClosed: () => of(true)
+    } as any);
 
     const router = TestBed.inject(Router);
-    const navigateSpy = spyOn(router, 'navigateByUrl');
+    const navigateSpy = spyOn(router, 'navigate');
 
-    const buttons: HTMLButtonElement[] =
-      Array.from(fixture.nativeElement.querySelectorAll('button'));
+    const emp: Employee = mockEmployees[0];
 
-    const editButton = buttons.find(btn =>
-      btn.textContent?.trim() === 'Edit'
-    );
-
-    expect(editButton).toBeTruthy();
-
-    editButton!.click();
+    component.editEmployee(emp);
     tick();
 
-    expect(navigateSpy).toHaveBeenCalled();
+    expect(dialogSpy.open).toHaveBeenCalled();
+    expect(navigateSpy).toHaveBeenCalledWith(['/employee-edit', emp.id]);
+  }));
+
+  it('should NOT navigate when edit is cancelled', fakeAsync(() => {
+    dialogSpy.open.and.returnValue({
+      afterClosed: () => of(false)
+    } as any);
+
+    const router = TestBed.inject(Router);
+    const navigateSpy = spyOn(router, 'navigate');
+
+    component.editEmployee(mockEmployees[0]);
+    tick();
+
+    expect(navigateSpy).not.toHaveBeenCalled();
   }));
 
 

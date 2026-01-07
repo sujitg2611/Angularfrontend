@@ -29,7 +29,7 @@
           <td>{{ e.address }}</td>
           <td>{{ e.department }}</td>
           <td>
-            <button class="btn btn-sm btn-hdfc me-2" [routerLink]="['/employee-edit',e.id]">Edit</button>
+            <button class="btn btn-sm btn-hdfc me-2" (click)="editEmployee(e)">Edit</button>
             <button class="btn btn-sm btn-hdfc" (click)="deleteEmployee(e.id!)">Delete</button>
           </td>
         </tr>

@@ -37,7 +37,7 @@ export class EmployeeListComponent implements OnInit {
       this.setPage(this.currentPage - 1);
     }
   }
-  constructor(private svc: EmployeeService, private cd: ChangeDetectorRef, private dialog: MatDialog) {
+  constructor(private svc: EmployeeService, private cd: ChangeDetectorRef, private dialog: MatDialog, private router: Router) {
   }
 
 
@@ -90,6 +90,20 @@ export class EmployeeListComponent implements OnInit {
     })
   }
 
+  editEmployee(emp: Employee) {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: {
+        title: 'Confirm Edit',
+        message: 'Do you want to edit this employee?'
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.router.navigate(['/employee-edit', emp.id]);
+      }
+    })
+  }
 
   edit(emp: Employee) {
     const updated = {
